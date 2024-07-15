@@ -16,14 +16,29 @@ use App\Http\Controllers\PatientController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// Public routes (no authentication required)
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/patient', [PatientController::class, 'patient']);
-Route::get('/patient', [PatientController::class, 'getPatient']);
+
+// Protected routes (require JWT authentication)
+Route::middleware('jwt.auth')->group(function () {
+    Route::get('/user', [AuthController::class, 'user']); // Route to fetch authenticated user details
+    Route::post('/patient', [PatientController::class, 'patient']); // Route to create a new patient
+    Route::get('/patient', [PatientController::class, 'getPatient']); // Route to create a new patient
+    Route::get('/patient/{id}', [PatientController::class, 'show']); // Route to fetch all patients
+    //Route::get('/patient/{id}', 'PatientController@show');
+
+   
+    });
+
+
+Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::get('me', [AuthController::class, 'me']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
+
 
 // Other route examples
 // Route::post('/testurl', [AuthController::class, 'testurl']);

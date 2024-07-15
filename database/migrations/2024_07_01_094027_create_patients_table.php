@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePatientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('age');
             $table->string('gender');
-            $table->string('sampleType');
-            $table->text('clinicalHistory');
+            $table->string('sampletype'); // Use snake_case for consistency
+            $table->text('clinicalhistory');
             $table->text('diagnosis');
             $table->timestamps();
         });
@@ -34,4 +34,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('patients');
     }
-};
+}

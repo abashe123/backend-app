@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class Patient extends Model
@@ -11,6 +13,18 @@ class Patient extends Model
     use HasFactory; 
 
     protected $fillable = [
-        'name', 'age', 'gender', 'sampleType', 'clinicalHistory', 'diagnosis'
+        'user_id', 
+        'name',
+        'age',
+        'gender',
+        'sampletype',
+        'clinicalhistory',
+        'diagnosis',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+     
 }
